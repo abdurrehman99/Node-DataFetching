@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var xlsxtojson = require("xlsx-to-json");
-var xlstojson = require("xls-to-json");
 
 //Init app
 const app = express();
@@ -26,18 +25,19 @@ app.use(bodyParser.json());
 
 app.get('/',(req,res)=>{
     res.status(200).send('Hello World');
-})
+});
 
-app.post('/api/xlstojson', function(req, res) {
+app.get('/xlstojson', (req,res)=> {
 	xlsxtojson({
-		input: "./excel-to-json.xlsx",  // input xls 
-	    output: "output.json", // output json 
+		input: "./excel.xlsx",  // input xls 
+        output: "output.json", // output json 
+        // sheet : "M.Phil.",
 	    lowerCaseHeaders:true
-	}, function(err, result) {
+	}, (err, result)=> {
 	    if(err) {
-	      res.json(err);
+	      res.status(400).json(err);
 	    } else {
-	      res.json(result);
+	      res.status(200).json(result);
 	    }
 	});
 });
